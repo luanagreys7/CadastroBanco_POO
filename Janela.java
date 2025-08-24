@@ -29,7 +29,7 @@ public class Janela extends JFrame {
     private ButtonGroup bgContas;
 
     private JSeparator jSeparator02;
-    
+
     private JButton jbConsultar;
     private JButton jbAtualizar;
     private JButton jbFechar;
@@ -41,6 +41,12 @@ public class Janela extends JFrame {
         getContentPane().setLayout(null);
 
         centralizar();
+
+        jlAgencia = new JLabel();
+        jlAgencia.setText("Código da Agência");
+        jlAgencia.setBounds(10, 10, 110, 18);
+
+        getContentPane().add(jlAgencia);
 
 
     }
