@@ -1,8 +1,39 @@
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import javax.swing.JFrame;
+import java.awt.*;
+import javax.swing.*;
+
 
 public class Janela extends JFrame {
+
+    private JLabel jlAgencia;
+    private JTextField jtfAgencia;
+
+    private JLabel jlConta;
+    private JTextField jtfConta;
+
+    private JSeparator jSeparator01;
+
+    private JLabel jlNome;
+    private JTextField jtfNome;
+
+    private JLabel jlEndereco;
+    private JTextField jtfEndereco;
+
+    private JLabel jlTelefone;
+    private JTextField jtfTelefone;
+
+    private JLabel jlCpf;
+    private JTextField jtfCpf;
+
+    private JRadioButton jrbCorrente;
+    private JRadioButton jrbPoupanca;
+    private ButtonGroup bgContas;
+
+    private JSeparator jSeparator02;
+    
+    private JButton jbConsultar;
+    private JButton jbAtualizar;
+    private JButton jbFechar;
+
     public Janela() {
         setTitle("Java Swing - Desenvolvimento de Sistemas");
         setSize(400, 255);
