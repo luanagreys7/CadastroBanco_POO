@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 
 public class Janela extends JFrame {
@@ -94,7 +95,7 @@ public class Janela extends JFrame {
         getContentPane().add(jtfEndereco);
 
         jlTelefone = new JLabel();
-        jlTelefone.setText("Telefone. ");
+        jlTelefone.setText("Telefone: ");
         jlTelefone.setBounds(10, 100, 60, 18);
         jlTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -117,14 +118,16 @@ public class Janela extends JFrame {
 
         getContentPane().add(jtfCpf);
 
-        jrbCorrente = new JRadioButton();
+        jrbCorrente = new JRadioButton("Conta Corrente");
         jrbCorrente.setBounds(100, 150, 111, 20);
         jrbCorrente.setSelected(true);
+        jrbCorrente.setMnemonic(KeyEvent.VK_C); // Alt + C
 
         getContentPane().add(jrbCorrente);
 
-        jrbPoupanca = new JRadioButton();
+        jrbPoupanca = new JRadioButton("Conta Poupança");
         jrbPoupanca.setBounds(225, 150, 118, 20);
+        jrbPoupanca.setMnemonic(KeyEvent.VK_P); // Alt + P
 
         getContentPane().add(jrbPoupanca);
 
@@ -137,23 +140,24 @@ public class Janela extends JFrame {
 
         getContentPane().add(jSeparator02);
 
-        jbConsultar = new JButton();
+        jbConsultar = new JButton("Consultar");
         jbConsultar.setBounds(35, 190, 100, 23);
+        jbConsultar.setMnemonic(KeyEvent.VK_S); // Alt + S
 
         getContentPane().add(jbConsultar);
 
-        jbAtualizar = new JButton();
+        jbAtualizar = new JButton("Atualizar");
         jbAtualizar.setBounds(145, 190, 100, 23);
         jbAtualizar.setEnabled(false);
+        jbAtualizar.setMnemonic(KeyEvent.VK_A); // Alt + A
         
         getContentPane().add(jbAtualizar);
 
-        jbFechar = new JButton();
+        jbFechar = new JButton("Fechar");
         jbFechar.setBounds(255, 190, 100, 23);
+        jbFechar.setMnemonic(KeyEvent.VK_F); // Alt + F
 
         getContentPane().add(jbFechar);
-
-
 
     }
 
