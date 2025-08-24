@@ -48,6 +48,59 @@ public class Janela extends JFrame {
 
         getContentPane().add(jlAgencia);
 
+        jtfAgencia = new JTextField();
+        jtfAgencia.setBounds(125, 10, 50, 20);
+
+        getContentPane().add(jtfAgencia);
+
+        jlConta = new JLabel();
+        jlConta.setText("Número da Conta");
+        jlConta.setBounds(205, 10, 105, 18);
+
+        getContentPane().add(jlConta);
+
+        jtfConta = new JTextField();
+        jtfConta.setBounds(315, 10, 60, 20);
+
+        getContentPane().add(jtfConta);
+
+        jSeparator01 = new JSeparator();
+        jSeparator01.setBounds(10, 40, 365, 10);
+
+        getContentPane().add(jSeparator01);
+
+        jlNome = new JLabel();
+        jlNome.setText("Nome: ");
+        jlNome.setBounds(10, 50, 60, 18);
+        jlNome.setHorizontalAlignment(SwingConstants.RIGHT);
+        
+        getContentPane().add(jlNome);
+
+        jtfNome = new JTextField();
+        jtfNome.setBounds(75, 50, 300, 20);
+
+        getContentPane().add(jtfNome);
+
+        jlEndereco = new JLabel();
+        jlEndereco.setText("Endereço: ");
+        jlEndereco.setBounds(10, 75, 60, 18);
+        jlEndereco.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        getContentPane().add(jlEndereco);   
+
+        jtfEndereco = new JTextField();
+        jtfEndereco.setBounds(75, 75, 300, 20);
+
+        getContentPane().add(jtfEndereco);
+
+        
+
+
+
+
+
+
+
 
     }
 
