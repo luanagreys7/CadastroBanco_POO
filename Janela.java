@@ -93,12 +93,65 @@ public class Janela extends JFrame {
 
         getContentPane().add(jtfEndereco);
 
+        jlTelefone = new JLabel();
+        jlTelefone.setText("Telefone. ");
+        jlTelefone.setBounds(10, 100, 60, 18);
+        jlTelefone.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        getContentPane().add(jlTelefone);
+
+        jtfTelefone = new JTextField();
+        jtfTelefone.setBounds(75, 100, 300, 20);
+
+        getContentPane().add(jtfTelefone);
+
+        jlCpf = new JLabel();
+        jlCpf.setText("CPF. ");
+        jlCpf.setBounds(10, 125, 60, 18);
+        jlCpf.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        getContentPane().add(jlCpf);
+
+        jtfCpf = new JTextField();
+        jtfCpf.setBounds(75, 125, 300, 20);
+
+        getContentPane().add(jtfCpf);
+
+        jrbCorrente = new JRadioButton();
+        jrbCorrente.setBounds(100, 150, 111, 20);
+        jrbCorrente.setSelected(true);
+
+        getContentPane().add(jrbCorrente);
+
+        jrbPoupanca = new JRadioButton();
+        jrbPoupanca.setBounds(225, 150, 118, 20);
+
+        getContentPane().add(jrbPoupanca);
+
+        bgContas = new ButtonGroup();
+        bgContas.add(jrbCorrente);
+        bgContas.add(jrbPoupanca);
+
+        jSeparator02 = new JSeparator();
+        jSeparator02.setBounds(10, 180, 365, 10);
+
+        getContentPane().add(jSeparator02);
+
+        jbConsultar = new JButton();
+        jbConsultar.setBounds(35, 190, 100, 23);
+
+        getContentPane().add(jbConsultar);
+
+        jbAtualizar = new JButton();
+        jbAtualizar.setBounds(145, 190, 100, 23);
+        jbAtualizar.setEnabled(false);
         
+        getContentPane().add(jbAtualizar);
 
+        jbFechar = new JButton();
+        jbFechar.setBounds(255, 190, 100, 23);
 
-
-
-
+        getContentPane().add(jbFechar);
 
 
 
