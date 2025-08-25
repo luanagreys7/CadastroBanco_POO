@@ -33,10 +33,10 @@ public class Janela extends JFrame {
 
     private JSeparator jSeparator02;
 
+    private JButton jbCriar;
     private JButton jbConsultar;
     private JButton jbAtualizar;
-    private JButton jbCriar;
-    private JButton jbExcluir;
+    
 
     public Janela() {
         setTitle("Java Swing - Desenvolvimento de Sistemas");
@@ -144,16 +144,10 @@ public class Janela extends JFrame {
         getContentPane().add(jSeparator02);
 
         jbCriar = new JButton("Criar");
-        jbCriar.setBounds(255, 190, 100, 23);
+        jbCriar.setBounds(35, 190, 100, 23); //255, 190,
         jbCriar.setMnemonic(KeyEvent.VK_F); // Alt + F
 
         getContentPane().add(jbCriar);
-
-        jbConsultar = new JButton("Consultar");
-        jbConsultar.setBounds(35, 190, 100, 23);
-        jbConsultar.setMnemonic(KeyEvent.VK_S); // Alt + S
-
-        getContentPane().add(jbConsultar);
 
         jbAtualizar = new JButton("Atualizar");
         jbAtualizar.setBounds(145, 190, 100, 23);
@@ -162,12 +156,11 @@ public class Janela extends JFrame {
         
         getContentPane().add(jbAtualizar);
 
-        jbExcluir = new JButton("Excluir");
-        jbExcluir.setBounds(255, 190, 100, 23);
-        jbExcluir.setMnemonic(KeyEvent.VK_E); // Alt + E
+        jbConsultar = new JButton("Consultar");
+        jbConsultar.setBounds(255, 190, 100, 23); //35, 190,
+        jbConsultar.setMnemonic(KeyEvent.VK_S); // Alt + S
 
-        getContentPane().add(jbExcluir);
-
+        getContentPane().add(jbConsultar);
 
 
     }
