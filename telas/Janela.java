@@ -110,7 +110,7 @@ public class Janela extends JFrame {
         getContentPane().add(jtfTelefone);
 
         jlCpf = new JLabel();
-        jlCpf.setText("CPF. ");
+        jlCpf.setText("CPF: ");
         jlCpf.setBounds(10, 125, 60, 18);
         jlCpf.setHorizontalAlignment(SwingConstants.RIGHT);
 
@@ -145,7 +145,7 @@ public class Janela extends JFrame {
 
         jbCriar = new JButton("Criar");
         jbCriar.setBounds(35, 190, 100, 23); //255, 190,
-        jbCriar.setMnemonic(KeyEvent.VK_F); // Alt + F
+        jbCriar.setMnemonic(KeyEvent.VK_R); // Alt + R
 
         getContentPane().add(jbCriar);
 
