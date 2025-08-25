@@ -35,7 +35,8 @@ public class Janela extends JFrame {
 
     private JButton jbConsultar;
     private JButton jbAtualizar;
-    private JButton jbFechar;
+    private JButton jbCriar;
+    private JButton jbExcluir;
 
     public Janela() {
         setTitle("Java Swing - Desenvolvimento de Sistemas");
@@ -142,6 +143,12 @@ public class Janela extends JFrame {
 
         getContentPane().add(jSeparator02);
 
+        jbCriar = new JButton("Criar");
+        jbCriar.setBounds(255, 190, 100, 23);
+        jbCriar.setMnemonic(KeyEvent.VK_F); // Alt + F
+
+        getContentPane().add(jbCriar);
+
         jbConsultar = new JButton("Consultar");
         jbConsultar.setBounds(35, 190, 100, 23);
         jbConsultar.setMnemonic(KeyEvent.VK_S); // Alt + S
@@ -155,11 +162,13 @@ public class Janela extends JFrame {
         
         getContentPane().add(jbAtualizar);
 
-        jbFechar = new JButton("Fechar");
-        jbFechar.setBounds(255, 190, 100, 23);
-        jbFechar.setMnemonic(KeyEvent.VK_F); // Alt + F
+        jbExcluir = new JButton("Excluir");
+        jbExcluir.setBounds(255, 190, 100, 23);
+        jbExcluir.setMnemonic(KeyEvent.VK_E); // Alt + E
 
-        getContentPane().add(jbFechar);
+        getContentPane().add(jbExcluir);
+
+
 
     }
 
