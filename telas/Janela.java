@@ -2,16 +2,23 @@ package telas;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
 
 
 public class Janela extends JFrame {
 
     private JLabel jlAgencia;
-    private JTextField jtfAgencia;
+
+    // agência com máscara
+    private JFormattedTextField jtfAgencia;
 
     private JLabel jlConta;
-    private JTextField jtfConta;
+
+    // conta com máscara
+    private JFormattedTextField jtfConta;
 
     private JSeparator jSeparator01;
 
@@ -22,10 +29,14 @@ public class Janela extends JFrame {
     private JTextField jtfEndereco;
 
     private JLabel jlTelefone;
-    private JTextField jtfTelefone;
+
+    // telefone com máscara
+    private JFormattedTextField jtfTelefone;
 
     private JLabel jlCpf;
-    private JTextField jtfCpf;
+
+    // cpf com máscara
+    private JFormattedTextField jtfCpf;
 
     private JRadioButton jrbCorrente;
     private JRadioButton jrbPoupanca;
@@ -52,7 +63,17 @@ public class Janela extends JFrame {
 
         getContentPane().add(jlAgencia);
 
-        jtfAgencia = new JTextField();
+        // Máscara para a agência
+
+        try {
+            MaskFormatter mascaraAgencia = new MaskFormatter("####");
+            mascaraAgencia.setPlaceholderCharacter('_');
+            jtfAgencia = new JFormattedTextField(mascaraAgencia);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            jtfAgencia = new JFormattedTextField();
+        }
+
         jtfAgencia.setBounds(125, 10, 50, 20);
 
         getContentPane().add(jtfAgencia);
@@ -63,7 +84,17 @@ public class Janela extends JFrame {
 
         getContentPane().add(jlConta);
 
-        jtfConta = new JTextField();
+        // Máscara para a conta
+        
+        try {
+            MaskFormatter mascaraConta = new MaskFormatter("######-#");
+            mascaraConta.setPlaceholderCharacter('_');
+            jtfConta = new JFormattedTextField(mascaraConta);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            jtfConta = new JFormattedTextField();
+        }
+
         jtfConta.setBounds(315, 10, 60, 20);
 
         getContentPane().add(jtfConta);
@@ -104,9 +135,19 @@ public class Janela extends JFrame {
 
         getContentPane().add(jlTelefone);
 
-        jtfTelefone = new JTextField();
-        jtfTelefone.setBounds(75, 100, 300, 20);
+        // Máscara para o telefone
 
+        try {
+            MaskFormatter mascaraTel = new MaskFormatter("(##) #####-####");
+            mascaraTel.setPlaceholderCharacter('_');
+            jtfTelefone = new JFormattedTextField(mascaraTel);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            jtfTelefone = new JFormattedTextField();
+        }
+
+        jtfTelefone.setBounds(75, 100, 300, 20);
+        
         getContentPane().add(jtfTelefone);
 
         jlCpf = new JLabel();
@@ -116,10 +157,20 @@ public class Janela extends JFrame {
 
         getContentPane().add(jlCpf);
 
-        jtfCpf = new JTextField();
+        // Máscara para o CPF
+        try {
+            MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
+            mascaraCpf.setPlaceholderCharacter('_'); // Mostra "_" nos espaços vazios
+            jtfCpf = new JFormattedTextField(mascaraCpf);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            jtfCpf = new JFormattedTextField();
+        }
+
         jtfCpf.setBounds(75, 125, 300, 20);
 
         getContentPane().add(jtfCpf);
+
 
         jrbCorrente = new JRadioButton("Conta Corrente");
         jrbCorrente.setBounds(100, 150, 111, 20);
