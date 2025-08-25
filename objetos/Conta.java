@@ -3,13 +3,11 @@ package objetos;
 public class Conta {
     private String agencia;
     private String numero;
-    private double saldo;
     private Cliente cliente;
 
-    public Conta(String agencia, String numero, double saldo, Cliente cliente) {
+    public Conta(String agencia, String numero, Cliente cliente) {
         this.agencia = agencia;
         this.numero = numero;
-        this.saldo = saldo;
         this.cliente = cliente;
     }
 
@@ -26,13 +24,6 @@ public class Conta {
     }
     public void setNumero(String numero) {
         this.numero = numero;
-    }
-
-    public double getSaldo() {
-        return saldo;
-    }
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
     }
 
     public Cliente getCliente() {
