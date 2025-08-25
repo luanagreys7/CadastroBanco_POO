@@ -11,15 +11,34 @@ public class ControleCadastro {
     private ArrayList<Cliente> clientes = new ArrayList<>();
     private ArrayList<Conta> contas = new ArrayList<>();
 
+    // Busca cliente por CPF
+    public Cliente buscarClientePorCpf(String cpf) {
+        for (Cliente c : clientes) {
+            if (c.getCpf().equals(cpf)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     // Criar cliente
     public String criarCliente(String nome, String cpf, String telefone, String endereco) {
 
+        // Validação de campos obrigatórios
+        if (nome.isBlank() || cpf.isBlank() || telefone.isBlank() || endereco.isBlank()) {
+            return "Erro: Todos os campos do cliente devem ser preenchidos.";
+        }
+
         // Verifica duplicidade
         for (Cliente c : clientes) {
-            if (c.getCpf().equals(cpf) || c.getTelefone().equals(telefone)) {
-                return "Erro: Cliente já existe (CPF ou telefone duplicado).";
+            if (c.getCpf().equals(cpf)) {
+                return "Erro: Já existe cliente com esse CPF.";
+            }
+            if (c.getTelefone().equals(telefone)) {
+                return "Erro: Já existe cliente com esse telefone.";
             }
         }
+
         Cliente novo = new Cliente(nome, cpf, telefone, endereco);
         clientes.add(novo);
         return "Cliente cadastrado com sucesso!";
@@ -28,6 +47,11 @@ public class ControleCadastro {
     // Criar conta
     public String criarConta(String tipo, String agencia, String numero, Cliente cliente) {
 
+        // Validação básica
+        if (agencia.isBlank() || numero.isBlank()) {
+            return "Erro: Agência e número da conta devem ser preenchidos.";
+        }
+        
         // Verifica duplicidade de conta
         for (Conta c : contas) {
             if (c.getAgencia().equals(agencia) && c.getNumero().equals(numero)) {
@@ -67,7 +91,7 @@ public class ControleCadastro {
     }
 
     // Atualizar cliente
-    
+
     public String atualizarCliente(Cliente cliente, String nome, String telefone, String endereco) {
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
