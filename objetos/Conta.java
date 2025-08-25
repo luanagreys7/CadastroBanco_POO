@@ -1,6 +1,6 @@
 package objetos;
 
-public class Conta {
+public abstract class Conta {
     private String agencia;
     private String numero;
     private Cliente cliente;

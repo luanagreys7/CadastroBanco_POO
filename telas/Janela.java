@@ -3,12 +3,15 @@ package telas;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
-
-import java.awt.event.KeyEvent;
 import java.text.ParseException;
-
+import java.awt.event.*;
+import funcoes.ControleCadastro;
 
 public class Janela extends JFrame {
+
+    private ControleCadastro controle = new ControleCadastro();
+
+    // Atributos
 
     private JLabel jlAgencia;
 
@@ -48,7 +51,7 @@ public class Janela extends JFrame {
     private JButton jbConsultar;
     private JButton jbAtualizar;
     
-
+    // Construtor
     public Janela() {
         setTitle("Java Swing - Desenvolvimento de Sistemas");
         setSize(400, 255);
@@ -85,7 +88,7 @@ public class Janela extends JFrame {
         getContentPane().add(jlConta);
 
         // Máscara para a conta
-        
+
         try {
             MaskFormatter mascaraConta = new MaskFormatter("######-#");
             mascaraConta.setPlaceholderCharacter('_');
@@ -171,7 +174,6 @@ public class Janela extends JFrame {
 
         getContentPane().add(jtfCpf);
 
-
         jrbCorrente = new JRadioButton("Conta Corrente");
         jrbCorrente.setBounds(100, 150, 111, 20);
         jrbCorrente.setSelected(true);
@@ -216,6 +218,8 @@ public class Janela extends JFrame {
 
     }
 
+    // Metódos auxiliares
+
     private void centralizar() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension janela = getSize();
@@ -227,6 +231,19 @@ public class Janela extends JFrame {
                 (screen.height - janela.height) / 2);
         setResizable(false);
     }
+
+    private void limparCampos() {
+        jtfNome.setText("");
+        jtfCpf.setText("");
+        jtfTelefone.setText("");
+        jtfEndereco.setText("");
+        jtfTelefone.setText("");
+        jtfCpf.setText("");
+        jtfAgencia.setText("");
+        jtfConta.setText("");
+        bgContas.clearSelection();
+    }
+
 
     public static void main(String args[]) {
         Janela janela = new Janela();

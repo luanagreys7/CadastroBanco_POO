@@ -6,7 +6,4 @@ public class Cliente extends Pessoa {
         super(nome, cpf, telefone, endereco);
     }
 
-    // Metódos abstratos
-    
-    
 }
