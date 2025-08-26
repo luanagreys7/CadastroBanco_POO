@@ -7,6 +7,10 @@ public class ContaCorrente extends Conta {
     }
 
     // Métodos abstratos
+    @Override
+    public String getTipo() {
+        return "corrente";
+    }
     
     
 }

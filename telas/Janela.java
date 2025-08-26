@@ -6,10 +6,16 @@ import javax.swing.text.MaskFormatter;
 import java.text.ParseException;
 import java.awt.event.*;
 import funcoes.ControleCadastro;
+import objetos.*;
 
 public class Janela extends JFrame {
 
     private ControleCadastro controle = new ControleCadastro();
+
+    // Estado de interação
+    private boolean emConsulta = false;
+    private boolean emEdicao = false;
+    private Conta contaSelecionada = null;
 
     // Atributos
 
@@ -215,7 +221,210 @@ public class Janela extends JFrame {
 
         getContentPane().add(jbConsultar);
 
+        // Listeners dos botões
+        jbCriar.addActionListener(e -> onCriar());
+        jbConsultar.addActionListener(e -> onConsultar());
+        jbAtualizar.addActionListener(e -> onAtualizar());
 
+
+    }
+
+    // Ações dos botões
+
+    private void onCriar() {
+
+        boolean clienteOk = campoTextoPreenchido(jtfNome) &&
+                            campoTextoPreenchido(jtfEndereco) &&
+                            campoTextoPreenchido(jtfTelefone) &&
+                            campoTextoPreenchido(jtfCpf);
+
+        boolean contaOk = campoTextoPreenchido(jtfAgencia) &&
+                          campoTextoPreenchido(jtfConta);
+        
+        if (!clienteOk && !contaOk) {
+            JOptionPane.showMessageDialog(this,
+            "Preencha os dados do cliente e/ou da conta para criar.", 
+            "Aviso", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        StringBuilder msgs = new StringBuilder();
+        Cliente clienteRef = null;
+
+        // Cliente (se informado)
+
+        if (clienteOk) {
+            String nome = jtfNome.getText().trim();
+            String endereco = jtfEndereco.getText().trim();
+            String telefone = jtfTelefone.getText().trim();
+            String cpf = jtfCpf.getText().trim();
+
+            Cliente cli = new Cliente(nome, endereco, telefone, cpf);
+            String resCli = cli.criar(controle);
+            msgs.append(resCli).append("\n");
+
+            if (resCli.startsWith("Erro")) {
+                // Tenta usar cliente existente (se for duplicidade de CPF/telefone)
+                Cliente existente = controle.buscarClientePorCpf(cpf);
+                if (existente == null) {
+                    JOptionPane.showMessageDialog(this, resCli, "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                clienteRef = existente;
+            } else {
+                clienteRef = cli;
+            }
+        }
+
+        // Conta (se informada)
+
+        if (contaOk) {
+            // Para criar conta precisamos de um cliente (ou recém-criado ou já existente)
+            if (clienteRef == null) {
+                // tenta buscar por CPF se estiver preenchido
+                if (maskPreenchida(jtfCpf)) {
+                    Cliente existente = controle.buscarClientePorCpf(jtfCpf.getText().trim());
+                    if (existente == null) {
+                        JOptionPane.showMessageDialog(this,
+                            "Para criar conta, informe um cliente existente (CPF) ou preencha todos os dados do cliente.",
+                            "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    clienteRef = existente;
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                        "Para criar conta, informe um cliente existente (CPF) ou preencha todos os dados do cliente.",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            String agencia = jtfAgencia.getText().trim();
+            String numero = jtfConta.getText().trim();
+            Conta conta = jrbCorrente.isSelected()
+                    ? new ContaCorrente(agencia, numero, clienteRef)
+                    : jrbPoupanca.isSelected()
+                        ? new ContaPoupanca(agencia, numero, clienteRef)
+                        : null;
+
+            if (conta == null) {
+                JOptionPane.showMessageDialog(this,
+                    "Selecione o tipo de conta (Corrente ou Poupança).",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String resConta = conta.criar(controle); // polimorfismo via Conta.getTipo()
+            msgs.append(resConta).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(this, msgs.toString().trim(),
+                "Resultado", JOptionPane.INFORMATION_MESSAGE);
+        limparCampos();
+        liberarCamposParaCriacao();
+        jbAtualizar.setEnabled(false);
+        emConsulta = false;
+        emEdicao = false;
+        contaSelecionada = null;
+    }
+
+    private void onConsultar() {
+        if (emConsulta) {
+            // Toggle: segundo clique limpa a consulta
+            limparCampos();
+            liberarCamposParaCriacao();
+            jbAtualizar.setEnabled(false);
+            emConsulta = false;
+            emEdicao = false;
+            contaSelecionada = null;
+            return;
+        }
+
+        if (!maskPreenchida(jtfAgencia) || !maskPreenchida(jtfConta)) {
+            JOptionPane.showMessageDialog(this,
+                "Informe Agência e Número da Conta completos para consultar.",
+                "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String agencia = jtfAgencia.getText().trim();
+        String numero = jtfConta.getText().trim();
+
+        Conta conta = controle.consultarConta(agencia, numero);
+        if (conta == null) {
+            JOptionPane.showMessageDialog(this,
+                "Conta não encontrada.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Preenche e bloqueia
+        contaSelecionada = conta;
+        Cliente cli = conta.getCliente();
+
+        jtfNome.setText(cli.getNome());
+        jtfEndereco.setText(cli.getEndereco());
+        jtfTelefone.setText(cli.getTelefone());
+        jtfCpf.setText(cli.getCpf());
+
+        if (conta instanceof ContaCorrente) {
+            jrbCorrente.setSelected(true);
+        } else {
+            jrbPoupanca.setSelected(true);
+        }
+
+        bloquearCamposPosConsulta();
+        jbAtualizar.setEnabled(true);
+        emConsulta = true;
+        emEdicao = false;
+    }
+
+    private void onAtualizar() {
+        if (!emConsulta || contaSelecionada == null) return;
+
+        if (!emEdicao) {
+            // Primeira pressão: liberar edição de nome/telefone/endereço
+            jtfNome.setEditable(true);
+            jtfTelefone.setEditable(true);
+            jtfEndereco.setEditable(true);
+
+            // Não se edita CPF, Agência, Número, nem tipo
+            jtfCpf.setEditable(false);
+            jtfAgencia.setEditable(false);
+            jtfConta.setEditable(false);
+            jrbCorrente.setEnabled(false);
+            jrbPoupanca.setEnabled(false);
+
+            emEdicao = true;
+            return;
+        }
+
+        // Segunda pressão: salvar alterações
+        String nome = jtfNome.getText().trim();
+        String telefone = jtfTelefone.getText().trim();
+        String endereco = jtfEndereco.getText().trim();
+
+        if (nome.isBlank() || !maskPreenchida(jtfTelefone) || endereco.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                "Preencha Nome, Telefone e Endereço para salvar.",
+                "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String res = controle.atualizarCliente(contaSelecionada.getCliente(), nome, telefone, endereco);
+        if (res.startsWith("Erro")) {
+            JOptionPane.showMessageDialog(this, res, "Erro", JOptionPane.ERROR_MESSAGE);
+            return; // continua em edição
+        }
+
+        JOptionPane.showMessageDialog(this, res, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+        // Sai do modo consulta/edição
+        limparCampos();
+        liberarCamposParaCriacao();
+        jbAtualizar.setEnabled(false);
+        emConsulta = false;
+        emEdicao = false;
+        contaSelecionada = null;
     }
 
     // Metódos auxiliares
@@ -230,6 +439,37 @@ public class Janela extends JFrame {
         setLocation((screen.width - janela.width) / 2,
                 (screen.height - janela.height) / 2);
         setResizable(false);
+    }
+
+    private boolean campoTextoPreenchido(JTextField f) {
+        return f.getText() != null && !f.getText().trim().isBlank();
+    }
+
+    private boolean maskPreenchida(JFormattedTextField f) {
+        String t = f.getText();
+        return t != null && !t.isBlank() && !t.contains("_");
+    }
+
+    private void bloquearCamposPosConsulta() {
+        jtfAgencia.setEditable(false);
+        jtfConta.setEditable(false);
+        jtfNome.setEditable(false);
+        jtfCpf.setEditable(false);
+        jtfTelefone.setEditable(false);
+        jtfEndereco.setEditable(false);
+        jrbCorrente.setEnabled(false);
+        jrbPoupanca.setEnabled(false);
+    }
+
+    private void liberarCamposParaCriacao() {
+        jtfAgencia.setEditable(true);
+        jtfConta.setEditable(true);
+        jtfNome.setEditable(true);
+        jtfCpf.setEditable(true);
+        jtfTelefone.setEditable(true);
+        jtfEndereco.setEditable(true);
+        jrbCorrente.setEnabled(true);
+        jrbPoupanca.setEnabled(true);
     }
 
     private void limparCampos() {

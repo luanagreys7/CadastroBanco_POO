@@ -1,6 +1,8 @@
 package objetos;
 
-public abstract class Conta {
+import funcoes.ControleCadastro;
+
+public abstract class Conta implements Cadastravel {
     private String agencia;
     private String numero;
     private Cliente cliente;
@@ -32,5 +34,11 @@ public abstract class Conta {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    public abstract String getTipo();
     
+    @Override
+    public abstract String criar(ControleCadastro controle) {
+        return controle.criarConta(getTipo(), agencia, numero, cliente);
+    }
 }

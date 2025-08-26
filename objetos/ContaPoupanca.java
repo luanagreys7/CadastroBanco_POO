@@ -7,5 +7,9 @@ public class ContaPoupanca extends Conta {
     }
 
     // Métodos abstratos
+    @Override
+    public String getTipo() {
+        return "poupanca";
+    }
     
 }
