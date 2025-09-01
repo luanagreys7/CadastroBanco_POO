@@ -37,11 +37,11 @@ public class ControleCadastro {
         }
 
         // Verifica duplicidade
-        for (Cliente c : clientes) {
-            if (c.getCpf().equals(cpf)) {
+        for (Cliente cli : clientes) {
+            if (cli.getCpf().equals(cpf)) {
                 return "Erro: Já existe cliente com esse CPF.";
             }
-            if (c.getTelefone().equals(telefone)) {
+            if (cli.getTelefone().equals(telefone)) {
                 return "Erro: Já existe cliente com esse telefone.";
             }
         }
