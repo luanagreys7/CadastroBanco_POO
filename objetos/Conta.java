@@ -40,7 +40,7 @@ public abstract class Conta implements Cadastravel {
     // Tipo de conta (corrente ou poupança) herdado pelas subclasses
     public abstract String getTipo();
 
-    // Lógica comum de criação
+    // Lógica comum de criação (delegada ao ControleCadastro, implementada pela interface Cadastravel)
     @Override
     public String criar(ControleCadastro controle) {
         return controle.criarConta(getTipo(), agencia, numero, cliente);
