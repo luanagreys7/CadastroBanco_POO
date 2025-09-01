@@ -35,10 +35,14 @@ public abstract class Conta implements Cadastravel {
         this.cliente = cliente;
     }
 
+    // Métodos abstratos
+
+    // Tipo de conta (corrente ou poupança) herdado pelas subclasses
     public abstract String getTipo();
-    
+
+    // Lógica comum de criação
     @Override
-    public abstract String criar(ControleCadastro controle) {
+    public String criar(ControleCadastro controle) {
         return controle.criarConta(getTipo(), agencia, numero, cliente);
     }
 }
